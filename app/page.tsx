@@ -1,32 +1,72 @@
 'use client'
+import { Pokemon, PokemonList } from "@/utils/type";
+import { getTypeImage } from "@/utils/styles";
+import { get } from "https";
 
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [response, setresponse] = useState('')  
+  const [Pokemons, setPokemons] = useState<Pokemon[]>([])
+  const [Pokemon, setPokemon] = useState<Pokemon | null>(null)
 
-  const[Pokemons, setPokemons] = useState([])
-
-  useEffect(() =>{
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=8&offset=0')
+  useEffect(() => {
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=9&offset=0')
       .then(res => res.json())
       .then((resultado) => {
-        setPokemons(resultado.results)
+        const promises = resultado.results.map((pokemon: { url: string }) =>
+          fetch(pokemon.url).then((res) => res.json())
+        )
+        Promise.all(promises).then((data: Pokemon[]) => setPokemons(data))
       })
   }, [])
-  console.log(Pokemons)
+
+  const fetchPokemon = () => {
+    if (!response) return;
+
+    fetch(`https://pokeapi.co/api/v2/pokemon/${response.toLowerCase()}`)
+      .then(res => res.json())
+      .then((data: Pokemon) => setPokemon(data))
+      .catch(() => {
+        setPokemon(null);  // Limpa o estado se não encontrar o Pokémon
+        alert("Pokémon não encontrado");
+      });
+  };
 
   return (
-    <main className="w-full h-full flex flex-col">
-        <header className="flex w-full h-16 bg-black items-center justify-center">
-          <h1 className="text-white">POKEAPI</h1>
-        </header>
-        <section className="w-3/4 h-full grid grid-cols-4 mx-auto mt-20 gap-10">
-          {Pokemons.map((P)=> (
-            <div className="bg-white w-52 h-56">
-            <p>{P.name}</p>
+    <main className="w-full h-full flex justify-center items-center">
+        <section className="w-1/5 h-3/5 bg-red-600 border-r-4 border-red-900 rounded-sm shadow-black shadow-md">
+          <div className="flex h-20 border-b-2 shadow-md shadow-black border-white">
+              <div className="mt-2 ml-1 border-gray-100 border-8 rounded-full w-16 h-16 bg-blue-600 shadow-black shadow-md"/>
+              <div className="mt-2 rounded-full bg-red-600 w-4 h-4 border-gray-900 border-2"/>
+              <div className="mt-2 rounded-full bg-yellow-600 w-4 h-4 border-gray-900 border-2"/>
+              <div className="mt-2 rounded-full bg-green-600 w-4 h-4 border-gray-900 border-2"/>
+          </div>
+          <div className="mt-5 ml-8 w-4/5 h-1/2 bg-gradient-to-r from-blue-500 via-blue-300 to-blue-500 border-gray-50 border-4">
+          {Pokemon && (
+            <div className="flex flex-col">
+              <div className="grid grid-cols-2">
+                <img className="w-56" src={Pokemon.sprites.front_default} alt={Pokemon.name} />
+                <img className="w-56" src={Pokemon.sprites.back_default} alt={Pokemon.name} />
+              </div>
+              <div>
+              
+              </div>
             </div>
-          ))}
+          )}
+          </div>
+          <div className="flex mt-1 ml-5">
+            <div className="w-10 h-10 bg-blue-600 rounded-full border-black border-2" />
+            <div className="w-10 h-3 bg-green-600 rounded-full mt-3 ml-2 border-black border-2" />
+            <div className="w-10 h-3 bg-orange-600 rounded-full mt-3 ml-2 border-black border-2" />
+          </div>
+          <div className="bg-yellow-500 w-32 h-7 mt-1 ml-5 rounded-md shadow-black shadow-sm" />
         </section>
-    </main>
+        <section className="w-2/12 h-2/5 mt-32 bg-red-600 border-l-4 border-red-900 rounded-sm shadow-black shadow-md">
+          <input value={response} onChange={e => setresponse(e.target.value)} className="mx-5 mt-3 w-4/5 h-16 text-2xl border-white border-2 bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500 text-white font-semibold rounded-sm" type="text" />
+          <button onClick={fetchPokemon} className="w-20 h-7 bg-gray-600 mt-1 ml-5 rounded-md shadow-black shadow-sm" />
+        </section>
+    </main>
   );
 }
+
