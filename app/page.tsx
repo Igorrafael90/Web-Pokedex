@@ -9,6 +9,7 @@ export default function Home() {
   const [response, setresponse] = useState('')  
   const [Pokemons, setPokemons] = useState<Pokemon[]>([])
   const [Pokemon, setPokemon] = useState<Pokemon | null>(null)
+  const [VarietySprites, setVarietySprites] = useState<{front: string, back: string} | null>(null)
 
   useEffect(() => {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=9&offset=0')
@@ -24,12 +25,31 @@ export default function Home() {
   const fetchPokemon = () => {
     if (!response) return;
 
-    fetch(`https://pokeapi.co/api/v2/pokemon/${response.toLowerCase()}`)
-      .then(res => res.json())
-      .then((data: Pokemon) => setPokemon(data))
+    // Chama a API para obter informações de espécies
+    fetch(`https://pokeapi.co/api/v2/pokemon-species/${response.toLowerCase()}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Pokemon não encontrado");
+        return res.json();
+      })
+      .then((speciesData: any) => { // use `any` ou crie um tipo específico se necessário
+        // Obtemos a primeira variedade do Pokémon
+        if (speciesData.varieties.length > 0) {
+          const varietyUrl = speciesData.varieties[0].pokemon.url;
+          // Agora chamamos a API do Pokémon para obter informações detalhadas, incluindo tipos e sprites
+          fetch(varietyUrl)
+            .then(res => res.json())
+            .then((pokemonData) => {
+              setPokemon(pokemonData); // Defina o Pokémon
+              setVarietySprites({
+                front: pokemonData.sprites.front_default,
+                back: pokemonData.sprites.back_default,
+              });
+            });
+        }
+      })
       .catch(() => {
-        setPokemon(null);  // Limpa o estado se não encontrar o Pokémon
-        alert("Pokémon não encontrado");
+        setPokemon(null);
+        alert("Pokemon não encontrado");
       });
   };
 
@@ -46,12 +66,14 @@ export default function Home() {
           {Pokemon && (
             <div className="flex flex-col">
               <div className="flex justify-center">
-                <img className="w-36 h-32" src={Pokemon.sprites.front_default} alt={Pokemon.name} />
+                {VarietySprites && (
+                  <img src={VarietySprites.front}></img>
+                )}
               </div>
               <div className="flex justify-center ">
-                {Pokemon.types.map((t) =>
-                <img className="w-8 ml-2" src={`${getTypeImage(t.type.name)}`}></img>
-                )}
+                {Pokemon.types && Pokemon.types.map((t) =>(
+                  <img key={t.type.name} className="w-8 ml-2" src={`${getTypeImage(t.type.name)}`}></img>
+                ))}
               </div>
             </div>
           )}
@@ -71,7 +93,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-    </main>
+    </main>
   );
 }
 
