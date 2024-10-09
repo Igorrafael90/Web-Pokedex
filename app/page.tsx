@@ -1,26 +1,14 @@
 'use client'
 import { Pokemon, PokemonList } from "@/utils/type";
 import { getTypeImage } from "@/utils/styles";
-import { get } from "https";
+import Link from "next/link";
 
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [response, setresponse] = useState('')  
-  const [Pokemons, setPokemons] = useState<Pokemon[]>([])
   const [Pokemon, setPokemon] = useState<Pokemon | null>(null)
   const [VarietySprites, setVarietySprites] = useState<{front: string, back: string} | null>(null)
-
-  useEffect(() => {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=9&offset=0')
-      .then(res => res.json())
-      .then((resultado) => {
-        const promises = resultado.results.map((pokemon: { url: string }) =>
-          fetch(pokemon.url).then((res) => res.json())
-        )
-        Promise.all(promises).then((data: Pokemon[]) => setPokemons(data))
-      })
-  }, [])
 
   const fetchPokemon = () => {
     if (!response) return;
@@ -54,8 +42,17 @@ export default function Home() {
   };
 
   return (
-    <main className="w-full h-full flex justify-center items-center">
-        <section className="w-1/6 min-w-72 h-3/5 min-h-96 bg-red-600 border-r-4 border-red-900 rounded-sm shadow-black shadow-md">
+    <main className="w-full h-full flex flex-col items-center">
+        <section className="w-full h-12 bg-white flex justify-around items-center">
+            <Link href={`/`}>
+              <p>home</p>
+            </Link>
+            <p>Pokedex</p>
+            <Link href={`/Pokelist/`}>
+              <p>oi</p>
+            </Link>
+        </section>
+        <section className="w-1/6 min-w-72 h-3/5 min-h-96 max-h-144 bg-red-600 border-r-4 border-red-900 rounded-sm shadow-black shadow-md my-auto">
           <div className="flex h-20 border-b-2 shadow-md shadow-black border-white">
               <div className="mt-2 ml-1 border-gray-100 border-8 rounded-full w-16 h-16 bg-blue-600 shadow-black shadow-md"/>
               <div className="mt-2 rounded-full bg-red-600 w-4 h-4 border-gray-900 border-2"/>
@@ -67,7 +64,7 @@ export default function Home() {
             <div className="flex flex-col">
               <div className="flex justify-center">
                 {VarietySprites && (
-                  <img src={VarietySprites.front}></img>
+                  <img className="w-36" src={VarietySprites.front}></img>
                 )}
               </div>
               <div className="flex justify-center ">
