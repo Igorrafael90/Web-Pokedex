@@ -63,16 +63,16 @@ export default function Pokelist() {
                 </Link>
             </section>
             <input
-                className="mt-10"
+                className="mt-10 rounded-sm border-redpalet border"
                 type="search"
                 value={search}
                 onChange={(e) => setsearch(e.target.value)}
             />
-            <section className="w-2/3 h-2/3 grid grid-cols-5 mt-10 overflow-x-hidden xl:grid-cols-4 md:grid-cols-3 ">
+            <section className="w-2/3 h-2/3 grid grid-cols-5 mt-10 overflow-x-hidden xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 Android:grid-cols-1">
                 {filteredPokemons.map((P) => (
                     <div
                         key={P.name}
-                        className="flex flex-col w-40 h-40 bg-cyan-200 border border-black mb-5 ml-7 items-center"
+                        className="flex flex-col w-40 h-40 bg-cyan-200 rounded-sm border border-black mb-5 ml-7 items-center"
                     >
                         <img
                             className="w-28 hover:scale-110 hover:-translate-y-1"
@@ -91,7 +91,7 @@ export default function Pokelist() {
                     </div>
                 ))}
             </section>
-            <h1 className="text-white text-1xl w-96 text-center">
+            <h1 className="text-white text-1xl w-64 text-center">
                 Aviso alguns pokemons que estão sem imagem é pela falta de
                 sprites nesse modelo, como sprite do miraidon-aquatic-mode
             </h1>

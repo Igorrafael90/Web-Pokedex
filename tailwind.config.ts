@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'Android': "360px",
+        'Iphone': '320px'
+      },
       spacing: {
         "144": "30rem",
       },
