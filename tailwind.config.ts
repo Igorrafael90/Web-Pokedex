@@ -9,9 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       spacing: {
-        '144': '30rem',
+        "144": "30rem",
       },
       colors: {
+        redpalet: "#eb0a44",
+        yellowpalet: "#ffff9a",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },

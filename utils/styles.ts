@@ -1,5 +1,5 @@
 export function getTypeImage(typeName: string): string {
-    const colors: {[key: string]: string } = {
+    const colors: { [key: string]: string } = {
         fire: "/icons/fire.svg",
         flying: "/icons/flying.svg",
         bug: "/icons/bug.svg",
@@ -15,7 +15,9 @@ export function getTypeImage(typeName: string): string {
         electric: "/icons/electric.svg",
         fairy: "/icons/fairy.svg",
         fighting: "/icons/fighting.svg",
-        grass: "/icons/grass.svg"
+        grass: "/icons/grass.svg",
+        ground: "/icons/ground.svg",
+        rock: "/icons/rock.svg",
     };
-    return colors[typeName] || "/public/fire.png"
-  }
+    return colors[typeName] || "/public/fire.png";
+}
