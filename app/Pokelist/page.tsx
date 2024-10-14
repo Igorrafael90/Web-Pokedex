@@ -76,7 +76,7 @@ export default function Pokelist() {
                     >
                         <img
                             className="w-28 hover:scale-110 hover:-translate-y-1"
-                            src={P.sprites.front_default}
+                            src={P.sprites.front_default || "/dflt/default.png"}
                         />
                         <div className="flex">
                             {P.types.map((t) => (
@@ -91,11 +91,11 @@ export default function Pokelist() {
                     </div>
                 ))}
             </section>
-            <h1 className="text-white text-1xl w-64 text-center">
+            <p className="text-white text-1xl w-96 text-center">
                 Aviso alguns pokemons que estão sem imagem é pela falta de
                 sprites nesse modelo, como sprite do miraidon-aquatic-mode
-            </h1>
-            <footer className="absolute bottom-0 w-full bg-redpalet h-6"></footer>
+            </p>
+            <footer className="w-full bg-redpalet h-8 shadow-2xl shadow-black"></footer>
         </main>
     );
 }
