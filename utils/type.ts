@@ -6,6 +6,7 @@ export interface PokemonList {
 export interface Pokemon {
     id: number;
     name: string;
+    order: number;
     url: string;
     varieties:{
       is_default: true;

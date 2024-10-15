@@ -119,7 +119,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <footer className="w-full bg-redpalet h-8 shadow-2xl shadow-black"></footer>
+      <footer className="w-full bg-redpalet h-8 shadow-Sh shadow-black"></footer>
     </main>
   );
 }

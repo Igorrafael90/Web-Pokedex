@@ -8,9 +8,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        Sh: "1px -2px 10px",
+      },
       screens: {
-        'Android': "360px",
-        'Iphone': '320px'
+        Android: "360px",
+        Iphone: "320px",
       },
       spacing: {
         "144": "30rem",
