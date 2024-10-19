@@ -1,4 +1,4 @@
-export function getTypeImage(typeName: string): string {
+export function getTypeImage(typeName: string): string {//Cria uma função que vai Trazer o svg de acordo com o tipo do pokemon pelo nome do tipo
     const colors: { [key: string]: string } = {
         fire: "/icons/fire.svg",
         flying: "/icons/flying.svg",

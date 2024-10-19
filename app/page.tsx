@@ -22,20 +22,19 @@ export default function Home() {
     // Chama a API para obter informações de espécies
     fetch(`https://pokeapi.co/api/v2/pokemon-species/${response.toLowerCase()}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Pokemon não encontrado");
-        return res.json();
+        if (!res.ok) throw new Error("Pokemon não encontrado");//Após jogar a api no res, faz a verificação se está tudo ook
+        return res.json();//Tranformar as informações passadas e um json
       })
       .then((speciesData: any) => {
         // use `any` ou crie um tipo específico se necessário
         // Obtemos a primeira variedade do Pokémon
-        if (speciesData.varieties.length > 0) {
-          const varietyUrl = speciesData.varieties[0].pokemon.url;
-          // Agora chamamos a API do Pokémon para obter informações detalhadas, incluindo tipos e sprites
-          fetch(varietyUrl)
-            .then((res) => res.json())
-            .then((pokemonData) => {
-              setPokemon(pokemonData); // Defina o Pokémon
-              setVarietySprites({
+        if (speciesData.varieties.length > 0) {//Como existe pokemons que possue formas diferente, cria uma condição que leia todo pokemon que tenha mais variantes que 0
+          const varietyUrl = speciesData.varieties[0].pokemon.url;//Cria um objeto que vai conter nele o url de toda variante 0 do pokemon
+          fetch(varietyUrl)// Agora chamamos a API do Pokémon para obter informações detalhadas, incluindo tipos e sprites
+            .then((res) => res.json())//joga novamente em um res para transformar em um json
+            .then((pokemonData) => {//jogar na variavel pokemonData
+              setPokemon(pokemonData); //e seta no objeto Pokemon e Defina o Pokémon
+              setVarietySprites({//seta no objeto VarietySprites a frente e costas do pokemon chamado
                 front: pokemonData.sprites.front_default,
                 back: pokemonData.sprites.back_default,
               });
@@ -72,7 +71,7 @@ export default function Home() {
           <div className="mt-2 rounded-full bg-green-400 w-4 h-4 border-gray-900 border-2" />
         </div>
         <div className="mt-5 ml-8 w-4/5 h-1/2 bg-gradient-to-r from-blue-500 via-blue-300 to-blue-500 border-gray-50 border-4">
-          {Pokemon && (
+          {Pokemon && (//Só vai mostrar quando o Pokemon for existir
             <div className="flex flex-col">
               <div className="flex justify-center">
                 {VarietySprites && (
