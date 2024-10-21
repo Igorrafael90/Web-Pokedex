@@ -4,6 +4,7 @@ import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getTypeImage } from "@/utils/styles";
 
 interface Pageprops {//Como precisa pegar o nome de cada pokemon separadamente, aqui vai pegar pelo que vai ser passado na pokelist pelo nome
   params: {
@@ -16,6 +17,16 @@ interface Pokemon {//Refaz a interface para pegar do pokemon especifico que foi 
   name: string;
   sprites: {
     front_default: string;
+    versions:{
+      'generation-v': {
+        'black-white':{
+          animated: {
+            front_default: string;
+            back_default: string;
+          }
+        }
+      }
+    }
   };
   types: {
     type: {
@@ -76,8 +87,23 @@ export default function Pokepage({ params }: Pageprops) {
           />
         </Link>
       </section>
-      <h1>{pokemon.name}</h1>
-      <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+      <section className="flex justify-center items-center gap-1 w-full h-4/5">
+          <div className="flex flex-col bg-black w-2/5 h-3/4 mt-10">
+            <h1 className="text-white text-3xl uppercase border-b-2 w-52 h-9 border-white">{pokemon.name}</h1>
+            <p className="text-white">Descrição pokemon</p>
+          </div>
+          <div className="flex flex-col bg-black w-2/5 h-3/4 mt-10">
+            <div className="flex justify-center">
+              <img className="w-32" src={pokemon.sprites.versions["generation-v"]["black-white"].animated.front_default} alt="" />
+              <img className="w-36" src={pokemon.sprites.versions["generation-v"]["black-white"].animated.back_default} alt="" />
+            </div>
+            <div className="flex justify-center gap-1">
+              {pokemon.types.map((t) =>(
+                <img className="w-9" src={`${getTypeImage(t.type.name)}`}></img>
+              ))}
+            </div>
+          </div>
+      </section>
       <footer className=" absolute bottom-0 w-full bg-redpalet h-8 shadow-Sh shadow-black"></footer>
     </main>
   );
