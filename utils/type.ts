@@ -24,4 +24,10 @@ export interface Pokemon {
             name: string;
         };
     }[];
+    flavor_text_entries:{
+      flavor_text: string;
+        language:{
+          name: string;
+        }
+    }[]
   }

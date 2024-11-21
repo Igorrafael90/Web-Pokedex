@@ -78,7 +78,6 @@ export default function Pokelist() {
             ) : (
                 <section className="w-2/3 h-2/3 grid grid-cols-5 mt-10 overflow-x-hidden sm:w-2/3 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 Android:grid-cols-2 Iphone:grid-cols-2 Android:w-full Iphone:w-full">
                     {filteredPokemons.map((P) => (
-                        <Link href={`/Pokepage/${P.name}`}>
                             <div
                                 key={P.name}
                                 className="flex flex-col w-40 h-40 overflow-hidden bg-cyan-200 rounded-sm border border-black mb-5 ml-7 items-center sm:w-40 sm:h-40 Android:w-32 Android:h-28 Iphone:w-28 Iphone:h-28"
@@ -100,8 +99,7 @@ export default function Pokelist() {
                                     ))}
                                 </div>
                                 <p className="uppercase text-xs">{P.name}</p>
-                            </div>
-                        </Link>
+                            </div> 
                     ))}
                 </section>
             )}
